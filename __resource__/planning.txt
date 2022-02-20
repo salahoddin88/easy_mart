@@ -1,0 +1,41 @@
+# Product
+    1. product category
+    2. products
+    3. Searching and sorting
+    4. Product Description
+        4.1 description
+        4.2 Reviews and Ratings
+
+# UserProfile
+    1. Registration
+    2. Authentication
+    3. Profile
+    4. Forget Password
+
+# FAQ
+    1. Category
+    2. FAQ
+
+# Cart
+    NOTE: if user is logged in then add to cart will work, redirect login
+    1. Add to Cart
+    2. My Cart 
+    3. update my cart
+
+# Orders
+    1. Payment Gateway 
+    2. Place Order
+    3. My Orders
+        3.1 List
+        3.2 Individual Order
+    4. Order Status
+    
+# Blogs
+    1. Blogs
+
+# Coupon Code
+    1. Fixed rate discount
+    2. Percentage discount
+
+# Website Configurations and setting
+

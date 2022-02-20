@@ -1,0 +1,57 @@
+# user_profile
+class UserProfile:
+    user = OneToOneField(User)
+    mobile = CharField(max_length=10)
+    address = TextField()
+    profile_picture = ImageField(null=True, blank=True)
+
+
+# product
+class ProductCategory:
+    name -> Char(max_lenght=255)
+    status -> Boolean(default=True)
+
+
+class Product:
+    product_category : FK(ProductCategory)
+    name : CharField(max_length = 255)
+    price : DecimalField()
+    description : TextField()
+    sku = CharField(max_length=20)
+    cover_image = ImageField()
+    status = Boolean(default=True)
+
+
+class ProductImages:
+    product : FK(Product)
+    image : ImageField()
+
+
+# cart
+class Cart:
+    user : FK(User)
+    product : FK(Product)
+    quantity : IntegerField(default=1)
+
+
+# orders
+class Order:
+    user : FK(User)
+    date : DateTime()
+    user_name : CharField(max_length=255)
+    address : TextField()
+    payment : Boolean(default=False)
+    status : CharField(choices=['pending', 'in-progress', 'delivered', 'canceled'])
+
+
+class OrderDetails:
+    order : Fk(Order)
+    product : FK(Product)
+    quantity : IntegerField(default=1)
+    price : DecimalField()
+
+
+class Payment:
+    order : Fk(Order)
+    order_id : CharField(max_length=255)
+    pass
