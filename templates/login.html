@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <style>
+        .errorlist  li{
+            color:red
+        }
+    </style>
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg="{% static 'img/breadcrumb.jpg' %}">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h2>Login</h2>
+                        <div class="breadcrumb__option">
+                            <a href="/">Home</a>
+                            <span>Login</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+    <div class="contact-form spad">
+        <div class="container">
+            <form action="{% url 'LoginView' %}" method="post">
+                {% csrf_token %}
+                <div class="row">
+                    {{ form }}
+                    <div class="col-lg-12 text-center">
+                        <button type="submit" class="site-btn">Login</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock content %}
