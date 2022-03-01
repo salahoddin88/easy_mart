@@ -1,6 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import View
-from product.models import Product, ProductCategory
+from product.models import Product, ProductCategory, ProductImages
 
 
 class HomeView(View):
@@ -25,5 +25,28 @@ class ProductListView(View):
         context = {
             'navigationProductCategories' : navigationProductCategories,
             'products' : products
+        }
+        return render(request, self.template_name, context)
+
+
+
+class ProductDetailsView(View):
+    template_name = 'product-details.html'
+
+    def get(self, request, product_id=None):
+        navigationProductCategories = ProductCategory.objects.filter(status=True)
+        try:
+            product = Product.objects.get(id=product_id)
+
+        except Product.DoesNotExist:
+            return redirect('HomeView')
+
+        productImages = ProductImages.objects.filter(product_id=product_id)
+        relatedProducts = Product.objects.filter(product_category_id=product.product_category_id).exclude(id=product_id)
+        context = {
+            'navigationProductCategories' : navigationProductCategories,
+            'product' : product,
+            'productImages' : productImages,
+            'relatedProducts' : relatedProducts
         }
         return render(request, self.template_name, context)

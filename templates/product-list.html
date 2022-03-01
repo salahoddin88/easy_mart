@@ -79,7 +79,7 @@
                                     <div class="product__item__pic set-bg" data-setbg="{{ product.cover_image.url }}">
                                     </div>
                                     <div class="product__item__text">
-                                        <h6><a href="#">{{ product.name }}</a></h6>
+                                        <h6><a href="{% url 'ProductDetailsView' product_id=product.id %}">{{ product.name }}</a></h6>
                                         <h5>₹{{ product.price }}</h5>
                                     </div>
                                 </div>
