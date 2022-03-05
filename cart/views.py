@@ -34,9 +34,75 @@ class CartView(View):
 
     def get(self, request):
         navigationProductCategories = ProductCategory.objects.filter(status=True)
-        carts = Cart.objects.filter(user=request.user)
+        cartProducts = Cart.objects.filter(user=request.user)
+        carts = {}
+        subTotal = 0
+        shippingCost = 50
+        for key, cartProduct in enumerate(cartProducts):
+            productTotal = int(cartProduct.quantity) * int(cartProduct.product.price)
+            subTotal += int(productTotal)
+            carts[key] = {
+                'product_image' : cartProduct.product.cover_image,
+                'product_name' : cartProduct.product.name,
+                'product_price' : cartProduct.product.price,
+                'quantity' : cartProduct.quantity,
+                'productTotal' : productTotal,
+                'cart_id' : cartProduct.id
+            }
+        
+        total = int(subTotal) + int(shippingCost)
+        carts = list(carts.values())
         context = {
             'navigationProductCategories' : navigationProductCategories,
-            'carts' : carts
+            'carts' : carts,
+            'subTotal' : subTotal,
+            'shippingCost' : shippingCost,
+            'total' : total
+        }
+        return render(request, self.template_name, context)
+
+    def post(self, request):
+        cart_ids = request.POST.getlist('cart_id')
+        quantities = request.POST.getlist('quantity')
+        
+        for key, cartId in enumerate(cart_ids):
+            try:
+                cart = Cart.objects.get(pk=cartId)
+                if int(quantities[key]) == 0:
+                    cart.delete()
+                else:
+                    cart.quantity = quantities[key]
+                    cart.save()
+            except Cart.DoesNotExist:
+                pass
+        
+        return redirect('CartView')
+
+
+class CheckoutView(View):
+    template_name = 'checkout.html'
+
+    def get(self, request):
+        navigationProductCategories = ProductCategory.objects.filter(status=True)
+        cartProducts = Cart.objects.filter(user=request.user)
+        carts = {}
+        subTotal = 0
+        shippingCost = 50
+        for key, cartProduct in enumerate(cartProducts):
+            productTotal = int(cartProduct.quantity) * int(cartProduct.product.price)
+            subTotal += int(productTotal)
+            carts[key] = {
+                'product_name' : cartProduct.product.name,
+                'productTotal' : productTotal,
+            }
+        
+        total = int(subTotal) + int(shippingCost)
+        carts = list(carts.values())
+        context = {
+            'navigationProductCategories' : navigationProductCategories,
+            'carts' : carts,
+            'subTotal' : subTotal,
+            'shippingCost' : shippingCost,
+            'total' : total
         }
         return render(request, self.template_name, context)

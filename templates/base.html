@@ -45,9 +45,9 @@
         <div class="humberger__menu__widget">
             <div class="header__top__right__auth">
                 {% if request.user.is_authenticated %}
-                    <a href="{% url 'LoginView' %}"><i class="fa fa-user"></i> Logout</a>
+                    <a href="{% url 'LogoutView' %}"><i class="fa fa-user"></i>Logout </a>
                 {% else %}
-                    <a href="{% url 'LogoutView' %}"><i class="fa fa-user"></i> Login</a>
+                    <a href="{% url 'LoginView' %}"><i class="fa fa-user"></i>Login</a>
                 {% endif %}
             </div>
         </div>
@@ -95,9 +95,9 @@
                         <div class="header__top__right">
                             <div class="header__top__right__auth">
                                 {% if request.user.is_authenticated %}
-                                    <a href="{% url 'LoginView' %}"><i class="fa fa-user"></i> Logout</a>
+                                    <a href="{% url 'LogoutView' %}"><i class="fa fa-user"></i>Logout </a>
                                 {% else %}
-                                    <a href="{% url 'LogoutView' %}"><i class="fa fa-user"></i> Login</a>
+                                    <a href="{% url 'LoginView' %}"><i class="fa fa-user"></i>Login</a>
                                 {% endif %}
                             </div>
                         </div>
