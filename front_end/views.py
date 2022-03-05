@@ -21,10 +21,39 @@ class ProductListView(View):
 
     def get(self, request, category_id=None):
         navigationProductCategories = ProductCategory.objects.filter(status=True)
-        products = Product.objects.filter(status=True, product_category_id=category_id)
+        search = request.GET.get('search')
+        sorting = request.GET.get('sorting')
+        minPrice = request.GET.get('min')
+        maxPrice = request.GET.get('max')
+
+        searchDict = {
+            'status' : True,
+        }
+
+        if category_id and category_id != 'None':
+            searchDict['product_category_id'] = category_id
+
+        if search:
+            searchDict['name__contains'] = search
+
+        if minPrice:
+            minPrice = int(minPrice.replace('₹', ''))
+            searchDict['price__gte'] = minPrice
+
+        if maxPrice:
+            maxPrice = int(maxPrice.replace('₹', ''))
+            searchDict['price__lte'] = maxPrice
+
+        if sorting == 'low':
+            products = Product.objects.filter(**searchDict).order_by('price')
+        elif sorting == 'high':
+            products = Product.objects.filter(**searchDict).order_by('-price')
+        else:
+            products = Product.objects.filter(**searchDict)
         context = {
             'navigationProductCategories' : navigationProductCategories,
-            'products' : products
+            'products' : products,
+            'category_id' : category_id
         }
         return render(request, self.template_name, context)
 
@@ -50,3 +79,5 @@ class ProductDetailsView(View):
             'relatedProducts' : relatedProducts
         }
         return render(request, self.template_name, context)
+
+

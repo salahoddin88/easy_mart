@@ -1,4 +1,6 @@
 {% load static %}
+{% load cart_count %}
+{% cartCount request as count_of_cart %}
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -39,7 +41,7 @@
         <div class="humberger__menu__cart">
             <ul>
                 <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
-                <li><a href="{% url 'CartView' %}"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+                <li><a href="{% url 'CartView' %}"><i class="fa fa-shopping-bag"></i> <span>{{ count_of_cart }}</span></a></li>
             </ul>
         </div>
         <div class="humberger__menu__widget">
@@ -132,7 +134,8 @@
                     <div class="header__cart">
                         <ul>
                             <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
-                            <li><a href="{% url 'CartView' %}"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+                            {% comment %} <li><a href="{% url 'CartView' %}"><i class="fa fa-shopping-bag"></i> <span>{% cartCount request %}</span></a></li> {% endcomment %}
+                            <li><a href="{% url 'CartView' %}"><i class="fa fa-shopping-bag"></i> <span>{{ count_of_cart }}</span></a></li>
                         </ul>
                     </div>
                 </div>
@@ -143,6 +146,7 @@
         </div>
     </header>
     <!-- Header Section End -->
+    
     {% block content %}
 
     {% endblock content %}
